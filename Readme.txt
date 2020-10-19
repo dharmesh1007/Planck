@@ -1,0 +1,1 @@
+Monte_Carlo_Integration.py file contains a function which integrates equations using the Monte Carlo method. 
