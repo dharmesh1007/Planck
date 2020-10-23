@@ -13,43 +13,45 @@ def Radiance(Temp,lwr,upp,N=100000):
     
     # Run Radiance calculation if all units are correct, else return an error
     # message.
-    if (lwr.unit==upp.unit) and (isinstance(Temp, float) or isinstance(Temp, int)):
-        # Convert integration limits into frequency(v) units(Hz) before
-        # calculating x = hv/kT.
-        if (lwr.unit==u.Hz) or (lwr.unit==u.J) or (lwr.unit==u.erg) or (lwr.unit==u.eV):
-            upp_a = (sc.h*conversion_to_Hz(upp))/(sc.k*Temp)
-            lwr_a = (sc.h*conversion_to_Hz(lwr))/(sc.k*Temp)
-        elif (lwr.unit==u.m) or (lwr.unit==u.nm) or (lwr.unit==u.Angstrom):
-            upp_a = (sc.h*conversion_to_Hz(lwr))/(sc.k*Temp)
-            lwr_a = (sc.h*conversion_to_Hz(upp))/(sc.k*Temp)
-        print(lwr_a,upp_a)
-        # Function to be integrated for Radiance calculation.
-        def fn(x):
-            return x**3/(np.e**x-1)
-      
-        # Calculate radiance in different ways depending on integration limits.
-        if (lwr_a==0) and (upp_a==np.inf):
-            error = 0
-            return (Temp**4*(2*np.pi**4*sc.k**4)/(15*sc.h**3*sc.c**2), error)*\
-                    u.W/u.m**2/u.sr
-        elif (lwr_a>0) and (upp_a==np.inf):
-            totrad = Temp**4*(2*np.pi**4*sc.k**4)/(15*sc.h**3*sc.c**2)
-            notinc = ((2*sc.k**4*Temp**4)/(sc.h**3*sc.c**2))*\
-                      MC_int(fn,0,lwr_a,N)[0]
-            error = ((2*sc.k**4*Temp**4)/(sc.h**3*sc.c**2))*\
-                      MC_int(fn,0,lwr_a,N)[1]
-            return (totrad-notinc, error)*u.W/u.m**2/u.sr
-        else:
-            rad = ((2*sc.k**4*Temp**4)/(sc.h**3*sc.c**2))*\
-                   MC_int(fn,lwr_a,upp_a,N)[0]
-            error = ((2*sc.k**4*Temp**4)/(sc.h**3*sc.c**2))*\
-                   MC_int(fn,lwr_a,upp_a,N)[1]
-            return (rad, error)*u.W/u.m**2/u.sr
-    else:
+    try:
+        if (lwr.unit==upp.unit) and (isinstance(Temp, float) or isinstance(Temp, int)):
+            # Convert integration limits into frequency(v) units(Hz) before
+            # calculating x = hv/kT.
+            if (lwr.unit==u.Hz) or (lwr.unit==u.J) or (lwr.unit==u.erg) or (lwr.unit==u.eV):
+                upp_a = (sc.h*conversion_to_Hz(upp))/(sc.k*Temp)
+                lwr_a = (sc.h*conversion_to_Hz(lwr))/(sc.k*Temp)
+            elif (lwr.unit==u.m) or (lwr.unit==u.nm) or (lwr.unit==u.Angstrom):
+                upp_a = (sc.h*conversion_to_Hz(lwr))/(sc.k*Temp)
+                lwr_a = (sc.h*conversion_to_Hz(upp))/(sc.k*Temp)
+            
+            # Function to be integrated for Radiance calculation.
+            def fn(x):
+                return x**3/(np.e**x-1)
+          
+            # Calculate radiance in different ways depending on integration limits.
+            if (lwr_a==0) and (upp_a==np.inf):
+                error = 0
+                return (Temp**4*(2*np.pi**4*sc.k**4)/(15*sc.h**3*sc.c**2), error)*\
+                        u.W/u.m**2/u.sr
+            elif (lwr_a>0) and (upp_a==np.inf):
+                totrad = Temp**4*(2*np.pi**4*sc.k**4)/(15*sc.h**3*sc.c**2)
+                notinc = ((2*sc.k**4*Temp**4)/(sc.h**3*sc.c**2))*\
+                          MC_int(fn,0,lwr_a,N)[0]
+                error = ((2*sc.k**4*Temp**4)/(sc.h**3*sc.c**2))*\
+                          MC_int(fn,0,lwr_a,N)[1]
+                return (totrad-notinc, error)*u.W/u.m**2/u.sr
+            else:
+                rad = ((2*sc.k**4*Temp**4)/(sc.h**3*sc.c**2))*\
+                       MC_int(fn,lwr_a,upp_a,N)[0]
+                error = ((2*sc.k**4*Temp**4)/(sc.h**3*sc.c**2))*\
+                       MC_int(fn,lwr_a,upp_a,N)[1]
+                return (rad, error)*u.W/u.m**2/u.sr
+    except:
         print("ERROR!!!: Temp should be unitless (assumed to be in Kelvins)")
-        print("Integration limits should be in units of: Frequency (Hz),")
-        print("wavelength (m, nm, or Angstrom), or energy (J, eV, or erg)")
-
+        print("          Integration limits should be in units of: Frequency (Hz),")
+        print("          wavelength (m, nm, or Angstrom), or energy (J, eV, or erg)")
+        print("          import the astropy units module then enter limits with units")
+        return 0
 
 # Radiant emittance of a blackbody source - Power per unit area (W/m^2)
 def Radiant_emit(Temp,lwr,upp,N=100000):
@@ -140,7 +142,7 @@ print(Photon_radiant_emit(5778.55, 2.4830532e-12 *u.erg, 2.8377751e-12*u.erg))
 """
 
 
-"""PLANCK FUNCTION----------------------------------------------------------"""
+"""PLANCK FUNCTION PLOT--------------------------------------------------------"""
 
 def BB_plot(lwr, upp, T):
     if (lwr.unit==u.Hz or lwr.unit==u.eV or lwr.unit==u.J or lwr.unit==u.erg or\
