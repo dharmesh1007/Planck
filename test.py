@@ -1,8 +1,8 @@
-from Planck.BB_Planck import Radiance, Radiant_emit, Photon_radiance,\
-Photon_radiant_emit
+from Planck.Planck_int import Radiance, Radiant_emit, Photon_radiance,\
+Photon_radiant_emit, BB_plot
 from astropy import units as u
 
-# This is a test of all the
+# This is a test of all the functions contained in the Planck_int module
 print("\n")
 print(Radiance(5778.55, 3.7474e14*u.Hz, 4.2827e14*u.Hz))
 print(Radiance(5778.55, 700*u.nm, 800*u.nm))
@@ -33,3 +33,6 @@ print(Photon_radiant_emit(5778.55, 7000e-10*u.m, 8000e-10*u.m))
 print(Photon_radiant_emit(5778.55, 1.5498 *u.eV, 1.7712*u.eV))
 print(Photon_radiant_emit(5778.55, 2.4830532e-19 *u.J, 2.8377751e-19*u.J))
 print(Photon_radiant_emit(5778.55, 2.4830532e-12 *u.erg, 2.8377751e-12*u.erg))
+print("/n")
+BB_plot(0*u.eV, 5*u.eV, 10000)
+BB_plot(1000*u.Angstrom, 7000*u.Angstrom, 10000)
