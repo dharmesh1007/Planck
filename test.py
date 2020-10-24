@@ -1,6 +1,35 @@
-from Planck.BB_Planck import Radiance
+from Planck.BB_Planck import Radiance, Radiant_emit, Photon_radiance,\
+Photon_radiant_emit
 from astropy import units as u
 
-
-
-print(Radiance(10000,0*u.eV,5*u.eV))
+# This is a test of all the
+print("\n")
+print(Radiance(5778.55, 3.7474e14*u.Hz, 4.2827e14*u.Hz))
+print(Radiance(5778.55, 700*u.nm, 800*u.nm))
+print(Radiance(5778.55, 7000e-10*u.m, 8000e-10*u.m))
+print(Radiance(5778.55, 1.5498 *u.eV, 1.7712*u.eV))
+print(Radiance(5778.55, 2.4830532e-19 *u.J, 2.8377751e-19*u.J))
+print(Radiance(5778.55, 2.4830532e-12 *u.erg, 2.8377751e-12*u.erg))
+print("\n")
+print(Radiant_emit(5778.55, 3.7474e14*u.Hz, 4.2827e14*u.Hz))
+print(Radiant_emit(5778.55, 7000*u.Angstrom, 8000*u.Angstrom))
+print(Radiant_emit(5778.55, 700*u.nm, 800*u.nm))
+print(Radiant_emit(5778.55, 7000e-10*u.m, 8000e-10*u.m))
+print(Radiant_emit(5778.55, 1.5498 *u.eV, 1.7712*u.eV))
+print(Radiant_emit(5778.55, 2.4830532e-19 *u.J, 2.8377751e-19*u.J))
+print(Radiant_emit(5778.55, 2.4830532e-12 *u.erg, 2.8377751e-12*u.erg))
+print("\n")
+print(Photon_radiance(5778.55, 3.7474e14*u.Hz, 4.2827e14*u.Hz))
+print(Photon_radiance(5778.55, 700*u.nm, 800*u.nm))
+print(Photon_radiance(5778.55, 7000e-10*u.m, 8000e-10*u.m))
+print(Photon_radiance(5778.55, 1.5498 *u.eV, 1.7712*u.eV))
+print(Photon_radiance(5778.55, 2.4830532e-19 *u.J, 2.8377751e-19*u.J))
+print(Photon_radiance(5778.55, 2.4830532e-12 *u.erg, 2.8377751e-12*u.erg))
+print("\n")
+print(Photon_radiant_emit(5778.55, 3.7474e14*u.Hz, 4.2827e14*u.Hz))
+print(Photon_radiant_emit(5778.55, 7000*u.Angstrom, 8000*u.Angstrom))
+print(Photon_radiant_emit(5778.55, 700*u.nm, 800*u.nm))
+print(Photon_radiant_emit(5778.55, 7000e-10*u.m, 8000e-10*u.m))
+print(Photon_radiant_emit(5778.55, 1.5498 *u.eV, 1.7712*u.eV))
+print(Photon_radiant_emit(5778.55, 2.4830532e-19 *u.J, 2.8377751e-19*u.J))
+print(Photon_radiant_emit(5778.55, 2.4830532e-12 *u.erg, 2.8377751e-12*u.erg))
